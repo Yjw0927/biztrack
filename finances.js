@@ -1,4 +1,8 @@
-
+function escapeHTML(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
 function openSidebar() {
     var side = document.getElementById('sidebar');
     side.style.display = (side.style.display === "block") ? "none" : "block";
@@ -137,7 +141,7 @@ function renderTransactions(transactions) {
             <td>${transaction.trDate}</td>
             <td>${transaction.trCategory}</td>
             <td class="tr-amount">${formattedAmount}</td>
-            <td>${transaction.trNotes}</td>
+            <td>${escapeHTML(transaction.trNotes)}</td>
             <td class="action">
                 <i title="Edit" onclick="editRow('${transaction.trID}')" class="edit-icon fa-solid fa-pen-to-square"></i>
                 <i onclick="deleteTransaction('${transaction.trID}')" class="delete-icon fas fa-trash-alt"></i>

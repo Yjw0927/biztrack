@@ -1,4 +1,8 @@
-
+function escapeHTML(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
 function openSidebar() {
   var side = document.getElementById('sidebar');
   side.style.display = (side.style.display === "block") ? "none" : "block";
@@ -135,14 +139,14 @@ function renderProducts(products) {
       prodRow.dataset.prodSold = product.prodSold;
 
       prodRow.innerHTML = `
-          <td>${product.prodID}</td>
-          <td>${product.prodName}</td>
-          <td>${product.prodDesc}</td>
-          <td>${product.prodCat}</td>
+          <td>${escapeHTML(product.prodID)}</td>
+          <td>${escapeHTML(product.prodName)}</td>
+          <td>${escapeHTML(product.prodDesc)}</td>
+          <td>${escapeHTML(product.prodCat)}</td>
           <td>$${product.prodPrice.toFixed(2)}</td>
           <td>${product.prodSold}</td>
           <td class="action">
-            <i title="Edit" onclick="editRow('${product.prodID}')" class="edit-icon fa-solid fa-pen-to-square"></i>
+            <i title="Edit" onclick="editRow('${escapeHTML(product.prodID)}')" class="edit-icon fa-solid fa-pen-to-square"></i>
             <i onclick="deleteProduct('${product.prodID}')" class="delete-icon fas fa-trash-alt"></i>
           </td>
       `;

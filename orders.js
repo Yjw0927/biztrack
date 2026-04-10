@@ -1,4 +1,8 @@
-
+function escapeHTML(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
 function openSidebar() {
     var side = document.getElementById('sidebar');
     side.style.display = (side.style.display === "block") ? "none" : "block";
@@ -170,21 +174,23 @@ function renderOrders(orders) {
       const formattedTotal = typeof order.orderTotal === 'number' ? `$${order.orderTotal.toFixed(2)}` : '';
 
       orderRow.innerHTML = `
-        <td>${order.orderID}</td>
-        <td>${order.orderDate}</td>
-        <td>${order.itemName}</td>
+        <td>${escapeHTML(order.orderID)}</td>
+        <td>${escapeHTML(order.orderDate)}</td>
+        <td>${escapeHTML(order.itemName)}</td>
         <td>${formattedPrice}</td>
         <td>${order.qtyBought}</td>
         <td>${formattedShipping}</td>
         <td>${formattedTaxes}</td>
         <td class="order-total">${formattedTotal}</td>
         <td>
-            <div class="status ${statusMap[order.orderStatus]}"><span>${order.orderStatus}</span></div>
+            <div class="status ${statusMap[order.orderStatus] || ''}">
+                <span>${escapeHTML(order.orderStatus)}</span>
+            </div>
         </td>
         <td class="action">
-            <i title="Edit" onclick="editRow('${order.orderID}')" class="edit-icon fa-solid fa-pen-to-square"></i>
+            <i title="Edit" onclick="editRow('${escapeHTML(order.orderID)}')" class="edit-icon fa-solid fa-pen-to-square"></i>
             <i onclick="deleteOrder('${order.orderID}')" class="delete-icon fas fa-trash-alt"></i>
-          </td> 
+        </td>
       `;
       orderTableBody.appendChild(orderRow);
   });
