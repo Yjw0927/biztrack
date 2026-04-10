@@ -1,14 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 :root {
-    --black-color: #262626;
+    --black-color: #000000;
     --blue-color: #247BA0;
     --orange-color: #e49273;
     --brown-color: #A37A74;
     --light-blue: #9AADBF;
     --light-orange: #FFF5EE;
-    --white-color: #f2f4f7;
+    --white-color: #FFFFFF;
     --green-color: #249672;
+    --middle-blue: #007ACC;
 }
 * {
     margin: 0;
@@ -97,7 +98,7 @@ body {
 }
 .menu li:hover, 
 .active {
-    background: var(--orange-color);
+    background: var(--middle-blue);
 }
 .menu a {
     color: var(--white-color);
@@ -374,7 +375,7 @@ label {
 }
 .card-detail {
     font-size: 17px;
-    color: #63484460;
+    color: #000000;
     letter-spacing: 2px;
     font-family: 'Courier New', Courier, monospace;
 }
