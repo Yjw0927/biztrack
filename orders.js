@@ -113,7 +113,11 @@ function newOrder(event) {
   const qtyBought = parseInt(document.getElementById("qty-bought").value);
   const shipping = parseFloat(document.getElementById("shipping").value);
   const taxes = parseFloat(document.getElementById("taxes").value);
-  const orderTotal = ((itemPrice * qtyBought) + shipping + taxes);
+  const orderTotal = safeAdd(
+    safeMultiply(itemPrice, qtyBought), 
+    safeAdd(shipping, taxes)            
+);
+  const displayTotal = orderTotal.toFixed(2);
   const orderStatus = document.getElementById("order-status").value;
 
   if (isDuplicateID(orderID, null)) {
