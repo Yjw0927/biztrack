@@ -89,3 +89,32 @@
     }
   }
 }
+{
+  "products": {
+    "title": "产品管理",
+    "add": "添加产品",
+    "export": "导出CSV",
+    "search": "搜索产品...",
+    "form": {
+      "id": "产品编号",
+      "name": "产品名称",
+      "desc": "产品描述",
+      "category": "产品类别",
+      "price": "产品价格",
+      "sold": "销售数量",
+      "submit": "添加",
+      "cancel": "取消",
+      "choose": "选择产品",
+      "chooseCategory": "选择类别"
+    },
+    "table": {
+      "id": "产品编号",
+      "name": "产品名称",
+      "desc": "描述",
+      "category": "类别",
+      "price": "价格",
+      "sold": "销量",
+      "actions": "操作"
+    }
+  }
+}
