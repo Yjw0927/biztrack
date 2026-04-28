@@ -1,4 +1,4 @@
-// i18n.js
+// i18n.js - 轻量级国际化引擎
 let currentLang = 'en';
 let translations = {};
 
@@ -29,23 +29,32 @@ function t(key) {
 }
 
 function applyTranslations() {
-    // 1. 翻译 HTML 元素
+    // 1. 翻译所有带 data-i18n 属性的 HTML 元素
     document.querySelectorAll('[data-i18n]').forEach(el => {
         el.textContent = t(el.getAttribute('data-i18n'));
     });
+    
+    // 翻译 placeholder
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
     });
 
-    // 2. ✅ 关键修复：通知 orders.js 重新渲染表格
+    // 2. ✅ 通知 Orders 页面重新渲染表格
     if (typeof window.renderOrdersTable === 'function') {
         window.renderOrdersTable();
     }
+    
+    // 3. ✅ 新增：通知 Products 页面重新渲染表格
+    if (typeof window.renderProductsTable === 'function') {
+        window.renderProductsTable();
+    }
 }
 
+// 页面加载完成后初始化语言
 document.addEventListener('DOMContentLoaded', () => {
     const savedLang = localStorage.getItem('biztrack_lang') || 'en';
     loadLanguage(savedLang);
 });
 
+// 暴露全局 API
 window.i18n = { loadLanguage, t };
