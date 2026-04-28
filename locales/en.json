@@ -124,23 +124,31 @@
     "add": "Add Expense",
     "export": "Export to CSV",
     "search": "Search expenses...",
+    "totalLabel": "Total Expenses",
     "table": {
-      "id": "Transaction ID",
+      "id": "S/N",
       "date": "Date",
-      "category": "Category",
+      "category": "Expense Category",
       "amount": "Amount",
       "notes": "Notes",
-      "actions": "Actions"
+      "actions": "Action"
     },
     "form": {
-      "id": "Transaction ID",
       "date": "Transaction Date",
       "category": "Expense Category",
       "amount": "Amount",
       "notes": "Notes",
       "submit": "Add",
       "update": "Update",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "chooseCategory": "Choose an expense category"
+    },
+    "categories": {
+      "rent": "Rent",
+      "utilities": "Utilities",
+      "supplies": "Supplies",
+      "orderfulfillment": "Order Fulfillment",
+      "miscellaneous": "Miscellaneous"
     }
   },
   "help": {
