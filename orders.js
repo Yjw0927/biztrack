@@ -22,11 +22,6 @@ function closeForm() {
     document.getElementById("order-form").style.display = "none";
 }
 
-// ✅ 辅助函数：将商品名称转换为翻译 key
-function getItemNameKey(name) {
-    return name.replace(/\s+/g, '').replace(/-/g, '').toLowerCase();
-}
-
 let orders = [];
 
 window.onload = function () {
@@ -58,7 +53,7 @@ window.onload = function () {
             orderStatus: "Processing"
         },
         {
-            orderID: "products.names.toteBags",
+            orderID: "1003",
             orderDate: "2024-02-05",
             itemName: "Tote bags",
             itemPrice: 20.00,
@@ -158,7 +153,7 @@ function renderOrders(orders) {
         "Delivered": "delivered"
     }
     
-    // ✅ 获取翻译函数，未加载时兜底为英文
+    // 获取翻译函数，未加载时兜底为英文
     const t = window.t || ((key) => key);
 
     orderToRender.forEach(order => {
@@ -180,15 +175,17 @@ function renderOrders(orders) {
       const formattedTaxes = typeof order.taxes === 'number' ? `$${order.taxes.toFixed(2)}` : '';
       const formattedTotal = typeof order.orderTotal === 'number' ? `$${order.orderTotal.toFixed(2)}` : '';
 
-      // ✅ 商品名称翻译 + 状态翻译
-      const itemNameKey = getItemNameKey(order.itemName);
-      const translatedItemName = t('products.names.' + itemNameKey);
-      const translatedStatus = t('orders.status.' + order.orderStatus.toLowerCase());
+      // 商品名称保持英文原文
+      const displayItemName = order.itemName;
+      
+      // 状态翻译
+      const statusKey = 'orders.status.' + order.orderStatus.toLowerCase();
+      const displayStatus = t(statusKey);
 
       orderRow.innerHTML = `
         <td>${escapeHTML(order.orderID)}</td>
         <td>${escapeHTML(order.orderDate)}</td>
-        <td>${escapeHTML(translatedItemName)}</td>
+        <td>${escapeHTML(displayItemName)}</td>
         <td>${formattedPrice}</td>
         <td>${order.qtyBought}</td>
         <td>${formattedShipping}</td>
@@ -196,7 +193,7 @@ function renderOrders(orders) {
         <td class="order-total">${formattedTotal}</td>
         <td>
             <div class="status ${statusMap[order.orderStatus] || ''}">
-                <span>${escapeHTML(translatedStatus)}</span>
+                <span>${escapeHTML(displayStatus)}</span>
             </div>
         </td>
         <td class="action">
