@@ -39,8 +39,17 @@ function updateDashboardCards() {
   // 安全守卫：防止在非 Dashboard 页面报错
   if (!revDiv) return;
 
-  // 获取翻译函数，未加载时降级为英文
-  const t = window.t || ((key) => key);
+  // ✅ 修复：使用更安全的翻译函数
+  const t = (typeof window !== 'undefined' && window.t) ? window.t : (key => {
+    // 翻译未加载时，返回英文原文
+    const fallback = {
+      'dashboard.cards.revenue': 'Revenue',
+      'dashboard.cards.expenses': 'Expenses',
+      'dashboard.cards.orders': 'Orders',
+      'dashboard.cards.balance': 'Balance'
+    };
+    return fallback[key] || key;
+  });
 
   revDiv.innerHTML = `<span class="title">${t('dashboard.cards.revenue')}</span><span class="amount-value">$${totalRevenues.toFixed(2)}</span>`;
   expDiv.innerHTML = `<span class="title">${t('dashboard.cards.expenses')}</span><span class="amount-value">$${totalExpenses.toFixed(2)}</span>`;
@@ -72,7 +81,17 @@ function initializeChart() {
   });
 
   const sortedCategorySales = Object.entries(categorySales).sort((a, b) => b[1] - a[1]).reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {});
-  const t = window.t || ((key) => key);
+  
+  // ✅ 修复：使用更安全的翻译函数
+  const t = (typeof window !== 'undefined' && window.t) ? window.t : (key => {
+    const fallback = {
+      'dashboard.charts.totalSalesLabel': 'Total Sales',
+      'dashboard.charts.totalSales': 'Total Sales ($)',
+      'dashboard.charts.salesByCategory': 'Sales by Product Category',
+      'dashboard.charts.expenses': 'Expenses'
+    };
+    return fallback[key] || key;
+  });
 
   const barChartOptions = {
     series: [{ name: t('dashboard.charts.totalSalesLabel'), data: Object.values(sortedCategorySales) }],
@@ -99,7 +118,7 @@ function initializeChart() {
   ];
 
   const categoryExp = {};
-  expItems.forEach(t => { categoryExp[t.trCategory] = (categoryExp[t.trCategory] || 0) + t.trAmount; });
+  expItems.forEach(item => { categoryExp[item.trCategory] = (categoryExp[item.trCategory] || 0) + item.trAmount; });
 
   const donutChartOptions = {
     series: Object.values(categoryExp),
