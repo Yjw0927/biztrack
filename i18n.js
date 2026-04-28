@@ -1,61 +1,53 @@
-// i18n.js - 轻量级国际化翻译引擎
-
+// i18n.js - 轻量级国际化引擎
 let currentLang = 'en';
 let translations = {};
 
-// 加载语言文件
 async function loadLanguage(lang) {
     try {
         const response = await fetch(`./locales/${lang}.json`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         translations = await response.json();
         currentLang = lang;
         applyTranslations();
         localStorage.setItem('biztrack_lang', lang);
     } catch (error) {
-        console.error('加载语言失败:', error);
+        console.error('i18n 加载失败:', error);
     }
 }
 
-// 获取翻译文本
 function t(key) {
     const keys = key.split('.');
     let result = translations;
     for (const k of keys) {
-        if (result && result[k] !== undefined) {
+        if (result && typeof result === 'object' && result[k] !== undefined) {
             result = result[k];
         } else {
-            return key;
+            return key; // 找不到则返回原 key 作为兜底
         }
     }
-    return result || key;
+    return result !== undefined ? result : key;
 }
 
-// 应用翻译到页面
 function applyTranslations() {
-    // 翻译文本内容
+    // 1. 翻译静态 HTML 元素
     document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        el.textContent = t(key);
+        el.textContent = t(el.getAttribute('data-i18n'));
     });
-    
-    // 翻译 placeholder
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        el.placeholder = t(key);
+        el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
     });
-    
-    // 翻译 title
-    document.querySelectorAll('[data-i18n-title]').forEach(el => {
-        const key = el.getAttribute('data-i18n-title');
-        el.title = t(key);
-    });
+
+    // 2. 触发动态 JS 内容更新（修复 Dashboard 卡片翻译键问题）
+    if (typeof updateDashboardCards === 'function') {
+        updateDashboardCards();
+    }
 }
 
-// 页面加载时初始化
+// 页面加载完成后初始化语言
 document.addEventListener('DOMContentLoaded', () => {
     const savedLang = localStorage.getItem('biztrack_lang') || 'en';
     loadLanguage(savedLang);
 });
 
-// 导出函数供外部调用
+// 暴露全局 API
 window.i18n = { loadLanguage, t };
