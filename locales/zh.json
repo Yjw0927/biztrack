@@ -73,3 +73,19 @@
     }
   }
 }
+{
+  "dashboard": {
+    "cards": {
+      "revenue": "总收入",
+      "expenses": "总支出",
+      "orders": "订单数",
+      "balance": "余额"
+    },
+    "charts": {
+      "salesByCategory": "按品类销售额",
+      "expenses": "支出分布",
+      "totalSales": "销售额 ($)",
+      "totalSalesLabel": "销售额"
+    }
+  }
+}
