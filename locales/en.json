@@ -1,1 +1,50 @@
-
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "orders": "Orders",
+    "expenses": "Expenses",
+    "help": "Help"
+  },
+  "orders": {
+    "title": "Orders",
+    "add": "Add Order",
+    "export": "Export to CSV",
+    "search": "Search orders...",
+    "table": {
+      "id": "Order ID",
+      "date": "Date",
+      "item": "Item Name",
+      "price": "Price",
+      "qty": "Qty",
+      "shipping": "Shipping",
+      "taxes": "Taxes",
+      "total": "Total",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered"
+    },
+    "form": {
+      "id": "Order ID",
+      "date": "Order Date",
+      "item": "Item Name",
+      "price": "Item Price",
+      "qty": "Quantity",
+      "shipping": "Shipping Cost",
+      "taxes": "Taxes",
+      "status": "Order Status",
+      "submit": "Add",
+      "cancel": "Cancel"
+    }
+  },
+  "common": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "update": "Update"
+  }
+}
