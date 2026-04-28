@@ -4,7 +4,25 @@
     "products": "产品管理",
     "orders": "订单管理",
     "expenses": "费用管理",
-    "help": "帮助"
+    "help": "帮助",
+    "about": "关于开发者"
+  },
+  "dashboard": {
+    "title": "数据看板",
+    "summary": "概览",
+    "analytics": "数据分析",
+    "cards": {
+      "revenue": "总收入",
+      "expenses": "总支出",
+      "orders": "订单数",
+      "balance": "余额"
+    },
+    "charts": {
+      "salesByCategory": "按品类销售额",
+      "expenses": "支出分布",
+      "totalSales": "销售额 ($)",
+      "totalSalesLabel": "销售额"
+    }
   },
   "orders": {
     "title": "订单管理",
@@ -23,12 +41,6 @@
       "status": "状态",
       "actions": "操作"
     },
-    "status": {
-      "pending": "待处理",
-      "processing": "处理中",
-      "shipped": "已发货",
-      "delivered": "已送达"
-    },
     "form": {
       "id": "订单号",
       "date": "订单日期",
@@ -38,58 +50,21 @@
       "shipping": "运费",
       "taxes": "税费",
       "status": "订单状态",
+      "total": "订单总额",
+      "calculated": "自动计算",
       "submit": "添加",
-      "cancel": "取消"
+      "update": "更新",
+      "cancel": "取消",
+      "choose": "选择商品",
+      "chooseStatus": "选择状态"
+    },
+    "status": {
+      "pending": "待处理",
+      "processing": "处理中",
+      "shipped": "已发货",
+      "delivered": "已送达"
     }
   },
-  "common": {
-    "edit": "编辑",
-    "delete": "删除",
-    "update": "更新"
-  }
-}
-{
-  "nav": {
-    "dashboard": "数据看板",
-    "products": "产品管理",
-    "orders": "订单管理",
-    "expenses": "费用管理",
-    "help": "帮助",
-    "about": "关于开发者"
-  },
-  "dashboard": {
-    "title": "数据看板",
-    "summary": "概览",
-    "analytics": "数据分析",
-    "cards": {
-      "revenue": "总收入",
-      "expenses": "总支出",
-      "orders": "订单数",
-      "balance": "余额"
-    },
-    "charts": {
-      "salesByCategory": "按品类销售额",
-      "expenses": "支出分布"
-    }
-  }
-}
-{
-  "dashboard": {
-    "cards": {
-      "revenue": "总收入",
-      "expenses": "总支出",
-      "orders": "订单数",
-      "balance": "余额"
-    },
-    "charts": {
-      "salesByCategory": "按品类销售额",
-      "expenses": "支出分布",
-      "totalSales": "销售额 ($)",
-      "totalSalesLabel": "销售额"
-    }
-  }
-}
-{
   "products": {
     "title": "产品管理",
     "add": "添加产品",
@@ -103,6 +78,7 @@
       "price": "产品价格",
       "sold": "销售数量",
       "submit": "添加",
+      "update": "更新",
       "cancel": "取消",
       "choose": "选择产品",
       "chooseCategory": "选择类别"
@@ -115,6 +91,49 @@
       "price": "价格",
       "sold": "销量",
       "actions": "操作"
+    },
+    "categories": {
+      "clothing": "服装",
+      "drinkware": "饮具",
+      "accessories": "配件",
+      "hats": "帽子",
+      "homedecor": "家居装饰"
     }
+  },
+  "finances": {
+    "title": "费用管理",
+    "add": "添加费用",
+    "export": "导出CSV",
+    "search": "搜索费用...",
+    "table": {
+      "id": "交易号",
+      "date": "日期",
+      "category": "类别",
+      "amount": "金额",
+      "notes": "备注",
+      "actions": "操作"
+    },
+    "form": {
+      "id": "交易号",
+      "date": "交易日期",
+      "category": "费用类别",
+      "amount": "金额",
+      "notes": "备注",
+      "submit": "添加",
+      "update": "更新",
+      "cancel": "取消"
+    }
+  },
+  "help": {
+    "title": "帮助",
+    "faq": "常见问题",
+    "contact": "联系我们"
+  },
+  "common": {
+    "edit": "编辑",
+    "delete": "删除",
+    "save": "保存",
+    "cancel": "取消",
+    "close": "关闭"
   }
 }
