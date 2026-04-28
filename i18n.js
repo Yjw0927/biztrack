@@ -39,17 +39,22 @@ function applyTranslations() {
         el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
     });
 
-    // 2. 通知 Orders 页面重新渲染表格
+    // 2. ✅ 通知 Dashboard 重新渲染卡片
+    if (typeof updateDashboardCards === 'function') {
+        updateDashboardCards();
+    }
+    
+    // 3. 通知 Orders 页面重新渲染表格
     if (typeof window.renderOrdersTable === 'function') {
         window.renderOrdersTable();
     }
     
-    // 3. 通知 Products 页面重新渲染表格
+    // 4. 通知 Products 页面重新渲染表格
     if (typeof window.renderProductsTable === 'function') {
         window.renderProductsTable();
     }
     
-    // 4. 通知 Finances 页面重新渲染表格
+    // 5. 通知 Finances 页面重新渲染表格
     if (typeof window.renderTransactionsTable === 'function') {
         window.renderTransactionsTable();
     }
