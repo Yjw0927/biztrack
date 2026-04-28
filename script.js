@@ -54,7 +54,7 @@ function calculateRevTotal(orders) {
   return orders.reduce((total, order) => total + order.orderTotal, 0);
 }
 
-// ✅ 初始化图表（只调用一次，不清空 DOM）
+// ✅ 初始化图表（图表标题使用固定英文，不翻译）
 function initializeChart() {
   const items = JSON.parse(localStorage.getItem('bizTrackProducts')) || [
     { prodID: "PD001", prodName: "Baseball caps", prodDesc: "Peace embroidered cap", prodCat: "Hats", prodPrice: 25.00, prodSold: 20 },
@@ -71,7 +71,7 @@ function initializeChart() {
 
   const sortedCategorySales = Object.entries(categorySales).sort((a, b) => b[1] - a[1]).reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {});
 
-  // 使用英文作为默认值（图表标题不翻译，避免复杂化）
+  // 图表标题使用固定英文
   const barChartOptions = {
     series: [{ name: 'Total Sales',  Object.values(sortedCategorySales) }],
     chart: { type: 'bar', height: 350, toolbar: { show: false } },
@@ -87,7 +87,7 @@ function initializeChart() {
     },
     tooltip: { y: { formatter: val => '$' + val.toFixed(2) } },
     title: { 
-      text: 'Sales by Product Category',
+      text: 'Sales by Product Category',  // 固定英文标题
       align: 'left', 
       style: { fontSize: '16px' } 
     }
@@ -116,7 +116,7 @@ function initializeChart() {
     legend: { position: 'left', offsetY: 55 },
     tooltip: { y: { formatter: val => '$' + val.toFixed(2) } },
     title: { 
-      text: 'Expenses',
+      text: 'Expenses',  // 固定英文标题
       align: 'left', 
       style: { fontSize: '16px' } 
     }
