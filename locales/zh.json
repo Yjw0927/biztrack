@@ -1,1 +1,50 @@
-
+{
+  "nav": {
+    "dashboard": "数据看板",
+    "products": "产品管理",
+    "orders": "订单管理",
+    "expenses": "费用管理",
+    "help": "帮助"
+  },
+  "orders": {
+    "title": "订单管理",
+    "add": "添加订单",
+    "export": "导出CSV",
+    "search": "搜索订单...",
+    "table": {
+      "id": "订单号",
+      "date": "日期",
+      "item": "商品名称",
+      "price": "单价",
+      "qty": "数量",
+      "shipping": "运费",
+      "taxes": "税费",
+      "total": "总计",
+      "status": "状态",
+      "actions": "操作"
+    },
+    "status": {
+      "pending": "待处理",
+      "processing": "处理中",
+      "shipped": "已发货",
+      "delivered": "已送达"
+    },
+    "form": {
+      "id": "订单号",
+      "date": "订单日期",
+      "item": "商品名称",
+      "price": "商品单价",
+      "qty": "购买数量",
+      "shipping": "运费",
+      "taxes": "税费",
+      "status": "订单状态",
+      "submit": "添加",
+      "cancel": "取消"
+    }
+  },
+  "common": {
+    "edit": "编辑",
+    "delete": "删除",
+    "update": "更新"
+  }
+}
