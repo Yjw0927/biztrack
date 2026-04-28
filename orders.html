@@ -69,31 +69,31 @@
                             <input type="date" id="order-date" required>
 
                             <label for="item-name"><b data-i18n="orders.form.item">Item Name: </b></label>
-                            <!-- ✅ 修改：给 optgroup 添加 data-i18n -->
+                            <!-- ✅ 修改点：给 option 加上 data-i18n -->
                             <select name="item-name" id="item-name" required>
                                 <option value="" disabled selected hidden data-i18n="orders.form.choose">Choose an item</option>
-                                <optgroup label="Hats" data-i18n="products.categories.hats">
+                                <optgroup label="Hats">
                                     <option value="Baseball caps" data-i18n="products.names.baseballcaps">Baseball caps</option>
                                     <option value="Snapbacks" data-i18n="products.names.snapbacks">Snapbacks</option>
                                     <option value="Beanies" data-i18n="products.names.beanies">Beanies</option>
                                     <option value="Bucket hats" data-i18n="products.names.buckethats">Bucket hats</option>
                                 </optgroup>
-                                <optgroup label="Drinkware" data-i18n="products.categories.drinkware">
+                                <optgroup label="Drinkware">
                                     <option value="Mugs" data-i18n="products.names.mugs">Mugs</option>
                                     <option value="Water bottles" data-i18n="products.names.waterbottles">Water bottles</option>
                                     <option value="Tumblers" data-i18n="products.names.tumblers">Tumblers</option>
                                 </optgroup>   
-                                <optgroup label="Clothing" data-i18n="products.categories.clothing">
+                                <optgroup label="Clothing">
                                     <option value="T-shirts" data-i18n="products.names.tshirts">T-shirts</option>
                                     <option value="Sweatshirts" data-i18n="products.names.sweatshirts">Sweatshirts</option>
                                     <option value="Hoodies" data-i18n="products.names.hoodies">Hoodies</option>
                                 </optgroup>   
-                                <optgroup label="Accessories" data-i18n="products.categories.accessories">
+                                <optgroup label="Accessories">
                                     <option value="Pillow cases" data-i18n="products.names.pillowcases">Pillow cases</option>
                                     <option value="Tote bags" data-i18n="products.names.totebags">Tote bags</option>
                                     <option value="Stickers" data-i18n="products.names.stickers">Stickers</option>
                                 </optgroup>   
-                                <optgroup label="Home decor" data-i18n="products.categories.homedecor">
+                                <optgroup label="Home decor">
                                     <option value="Posters" data-i18n="products.names.posters">Posters</option>
                                     <option value="Framed posters" data-i18n="products.names.framedposters">Framed posters</option>
                                     <option value="Canvas prints" data-i18n="products.names.canvasprints">Canvas prints</option>
@@ -115,6 +115,7 @@
                             <input type="number" id="taxes" placeholder="$2.00" min="0.00" max="10000.00" step="0.01" required>
                             
                             <label for="order-status"><b data-i18n="orders.form.status">Order Status:</b></label>
+                            <!-- ✅ 修改点：给 option 加上 data-i18n -->
                             <select name="order-status" id="order-status" required>
                                 <option value="" disabled selected hidden data-i18n="orders.form.chooseStatus">Choose a status</option>
                                 <option value="Pending" class="pending" data-i18n="orders.status.pending">Pending</option>
