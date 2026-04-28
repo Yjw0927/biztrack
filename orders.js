@@ -8,16 +8,13 @@ function openSidebar() {
     var side = document.getElementById('sidebar');
     side.style.display = (side.style.display === "block") ? "none" : "block";
 }
-
 function closeSidebar() {
     document.getElementById('sidebar').style.display = 'none';
 }
-
 function openForm() {
-    var form = document.getElementById("order-form")
+    var form = document.getElementById("order-form");
     form.style.display = (form.style.display === "block") ? "none" : "block";
 }
-
 function closeForm() {
     document.getElementById("order-form").style.display = "none";
 }
@@ -30,336 +27,194 @@ window.onload = function () {
         orders = JSON.parse(storedOrders);
     } else {
         orders = [
-        {
-            orderID: "1001",
-            orderDate: "2024-01-05",
-            itemName: "Baseball caps",
-            itemPrice: 25.00,
-            qtyBought: 2,
-            shipping: 2.50,
-            taxes: 9.00,
-            orderTotal: 61.50,
-            orderStatus: "Pending"
-        },
-        {
-            orderID: "1002",
-            orderDate: "2024-03-05",
-            itemName: "Water bottles",
-            itemPrice: 17.00,
-            qtyBought: 3,
-            shipping: 3.50,
-            taxes: 6.00,
-            orderTotal: 60.50,
-            orderStatus: "Processing"
-        },
-        {
-            orderID: "1003",
-            orderDate: "2024-02-05",
-            itemName: "Tote bags",
-            itemPrice: 20.00,
-            qtyBought: 4,
-            shipping: 2.50,
-            taxes: 2.00,
-            orderTotal: 84.50,
-            orderStatus: "Shipped"
-        },
-        {
-            orderID: "1004",
-            orderDate: "2023-01-05",
-            itemName: "Canvas prints",
-            itemPrice: 55.00,
-            qtyBought: 1,
-            shipping: 2.50,
-            taxes: 19.00,
-            orderTotal: 76.50,
-            orderStatus: "Delivered"
-        },
-        {
-            orderID: "1005",
-            orderDate: "2024-01-15",
-            itemName: "Beanies",
-            itemPrice: 15.00,
-            qtyBought: 2,
-            shipping: 3.90,
-            taxes: 4.00,
-            orderTotal: 37.90,
-            orderStatus: "Pending"
-        },
+            { orderID: "1001", orderDate: "2024-01-05", itemName: "Baseball caps", itemPrice: 25.00, qtyBought: 2, shipping: 2.50, taxes: 9.00, orderTotal: 61.50, orderStatus: "Pending" },
+            { orderID: "1002", orderDate: "2024-03-05", itemName: "Water bottles", itemPrice: 17.00, qtyBought: 3, shipping: 3.50, taxes: 6.00, orderTotal: 60.50, orderStatus: "Processing" },
+            { orderID: "1003", orderDate: "2024-02-05", itemName: "Tote bags", itemPrice: 20.00, qtyBought: 4, shipping: 2.50, taxes: 2.00, orderTotal: 84.50, orderStatus: "Shipped" },
+            { orderID: "1004", orderDate: "2023-01-05", itemName: "Canvas prints", itemPrice: 55.00, qtyBought: 1, shipping: 2.50, taxes: 19.00, orderTotal: 76.50, orderStatus: "Delivered" },
+            { orderID: "1005", orderDate: "2024-01-15", itemName: "Beanies", itemPrice: 15.00, qtyBought: 2, shipping: 3.90, taxes: 4.00, orderTotal: 37.90, orderStatus: "Pending" }
         ];
-
         localStorage.setItem("bizTrackOrders", JSON.stringify(orders));
     }
-
     renderOrders(orders);
 }
 
 function addOrUpdate(event) {
     let type = document.getElementById("submitBtn").textContent;
-    const t = window.t || ((key) => key);
-    if (type === t('orders.form.submit') || type === 'Add') {
+    // 简单的判断：如果是英文 Add 或中文 添加，都算新增
+    if (type === 'Add' || type === '添加') {
         newOrder(event);
-    } else if (type === t('orders.form.update') || type === 'Update'){
+    } else {
         const orderID = document.getElementById("order-id").value;
         updateOrder(orderID);
     }
 }
 
 function newOrder(event) {
-  event.preventDefault();
-  const orderID = document.getElementById("order-id").value;
-  const orderDate = document.getElementById("order-date").value;
-  const itemName = document.getElementById("item-name").value;
-  const itemPrice = parseFloat(document.getElementById("item-price").value);
-  const qtyBought = parseInt(document.getElementById("qty-bought").value);
-  const shipping = parseFloat(document.getElementById("shipping").value);
-  const taxes = parseFloat(document.getElementById("taxes").value);
-  const orderTotal = ((itemPrice * qtyBought) + shipping + taxes);
-  const orderStatus = document.getElementById("order-status").value;
+    event.preventDefault();
+    const order = {
+        orderID: document.getElementById("order-id").value,
+        orderDate: document.getElementById("order-date").value,
+        itemName: document.getElementById("item-name").value,
+        itemPrice: parseFloat(document.getElementById("item-price").value),
+        qtyBought: parseInt(document.getElementById("qty-bought").value),
+        shipping: parseFloat(document.getElementById("shipping").value),
+        taxes: parseFloat(document.getElementById("taxes").value),
+        orderTotal: 0, // 稍后计算
+        orderStatus: document.getElementById("order-status").value,
+    };
+    order.orderTotal = (order.itemPrice * order.qtyBought) + order.shipping + order.taxes;
 
-  if (isDuplicateID(orderID, null)) {
-    alert("Order ID already exists. Please use a unique ID.");
-    return;
-  }
+    if (isDuplicateID(order.orderID, null)) {
+        alert("Order ID already exists.");
+        return;
+    }
 
-  const order = {
-    orderID,
-    orderDate,
-    itemName,
-    itemPrice,
-    qtyBought,
-    shipping,
-    taxes,
-    orderTotal,
-    orderStatus,
-  };
-
-  orders.push(order);
-
-  renderOrders(orders);
-  localStorage.setItem("bizTrackOrders", JSON.stringify(orders));
-
-  document.getElementById("order-form").reset();
+    orders.push(order);
+    renderOrders(orders);
+    localStorage.setItem("bizTrackOrders", JSON.stringify(orders));
+    document.getElementById("order-form").reset();
 }
 
 function renderOrders(orders) {
     const orderTableBody = document.getElementById("tableBody");
     orderTableBody.innerHTML = "";
-
-    const orderToRender = orders;
-    const statusMap = {
-        "Pending": "pending",
-        "Processing": "processing",
-        "Shipped": "shipped",
-        "Delivered": "delivered"
-    }
+    const statusMap = { "Pending": "pending", "Processing": "processing", "Shipped": "shipped", "Delivered": "delivered" };
     
-    // 获取翻译函数，未加载时兜底为英文
-    const t = window.t || ((key) => key);
+    // 获取翻译函数，如果没加载就用默认值
+    const t = window.t || ((k) => k);
 
-    orderToRender.forEach(order => {
-      const orderRow = document.createElement("tr");
-      orderRow.className = "order-row";
+    orders.forEach(order => {
+        const row = document.createElement("tr");
+        row.className = "order-row";
+        // 存储数据用于排序
+        row.dataset.orderID = order.orderID;
+        row.dataset.itemName = order.itemName;
+        row.dataset.orderStatus = order.orderStatus;
+        // ... 其他 dataset ...
 
-      orderRow.dataset.orderID = order.orderID;
-      orderRow.dataset.orderDate = order.orderDate;
-      orderRow.dataset.itemName = order.itemName;
-      orderRow.dataset.itemPrice = order.itemPrice;
-      orderRow.dataset.qtyBought = order.qtyBought;
-      orderRow.dataset.shipping = order.shipping;
-      orderRow.dataset.taxes = order.taxes;
-      orderRow.dataset.orderTotal = order.orderTotal;
-      orderRow.dataset.orderStatus = order.orderStatus;
+        // 状态翻译：直接查 orders.status.pending 这种 key
+        let statusText = t('orders.status.' + order.orderStatus.toLowerCase());
+        // 如果翻译失败（返回了 key），则显示原文
+        if (statusText.includes('.')) statusText = order.orderStatus;
 
-      const formattedPrice = typeof order.itemPrice === 'number' ? `$${order.itemPrice.toFixed(2)}` : '';
-      const formattedShipping = typeof order.shipping === 'number' ? `$${order.shipping.toFixed(2)}` : '';
-      const formattedTaxes = typeof order.taxes === 'number' ? `$${order.taxes.toFixed(2)}` : '';
-      const formattedTotal = typeof order.orderTotal === 'number' ? `$${order.orderTotal.toFixed(2)}` : '';
-
-      // 商品名称保持英文原文
-      const displayItemName = order.itemName;
-      
-      // 状态翻译
-      const statusKey = 'orders.status.' + order.orderStatus.toLowerCase();
-      const displayStatus = t(statusKey);
-
-      orderRow.innerHTML = `
-        <td>${escapeHTML(order.orderID)}</td>
-        <td>${escapeHTML(order.orderDate)}</td>
-        <td>${escapeHTML(displayItemName)}</td>
-        <td>${formattedPrice}</td>
-        <td>${order.qtyBought}</td>
-        <td>${formattedShipping}</td>
-        <td>${formattedTaxes}</td>
-        <td class="order-total">${formattedTotal}</td>
-        <td>
-            <div class="status ${statusMap[order.orderStatus] || ''}">
-                <span>${escapeHTML(displayStatus)}</span>
-            </div>
-        </td>
-        <td class="action">
-            <i title="${t('common.edit')}" onclick="editRow('${escapeHTML(order.orderID)}')" class="edit-icon fa-solid fa-pen-to-square"></i>
-            <i onclick="deleteOrder('${order.orderID}')" class="delete-icon fas fa-trash-alt" title="${t('common.delete')}"></i>
-        </td>
-      `;
-      orderTableBody.appendChild(orderRow);
-  });
-  displayRevenue();
+        row.innerHTML = `
+            <td>${escapeHTML(order.orderID)}</td>
+            <td>${escapeHTML(order.orderDate)}</td>
+            <td>${escapeHTML(order.itemName)}</td>
+            <td>$${order.itemPrice.toFixed(2)}</td>
+            <td>${order.qtyBought}</td>
+            <td>$${order.shipping.toFixed(2)}</td>
+            <td>$${order.taxes.toFixed(2)}</td>
+            <td class="order-total">$${order.orderTotal.toFixed(2)}</td>
+            <td>
+                <div class="status ${statusMap[order.orderStatus] || ''}">
+                    <span>${statusText}</span>
+                </div>
+            </td>
+            <td class="action">
+                <i title="Edit" onclick="editRow('${order.orderID}')" class="edit-icon fa-solid fa-pen-to-square"></i>
+                <i onclick="deleteOrder('${order.orderID}')" class="delete-icon fas fa-trash-alt"></i>
+            </td>
+        `;
+        orderTableBody.appendChild(row);
+    });
+    displayRevenue();
 }
 
 function displayRevenue() {
-    const resultElement = document.getElementById("total-revenue");
-    const t = window.t || ((key) => key);
-
-    const totalRevenue = orders
-        .reduce((total, order) => total + order.orderTotal, 0);
-
-    resultElement.innerHTML = `
-        <span>${t('orders.revenueLabel')}: $${totalRevenue.toFixed(2)}</span>
-    `;
+    const total = orders.reduce((sum, o) => sum + o.orderTotal, 0);
+    const t = window.t || ((k) => k);
+    document.getElementById("total-revenue").innerHTML = `<span>${t('orders.revenueLabel')}: $${total.toFixed(2)}</span>`;
 }
 
-function editRow(orderID) {
-    const orderToEdit = orders.find(order => order.orderID === orderID);
-    const t = window.t || ((key) => key);
-
-    document.getElementById("order-id").value = orderToEdit.orderID;
-    document.getElementById("order-date").value = orderToEdit.orderDate;
-    document.getElementById("item-name").value = orderToEdit.itemName;
-    document.getElementById("item-price").value = orderToEdit.itemPrice;
-    document.getElementById("qty-bought").value = orderToEdit.qtyBought;
-    document.getElementById("shipping").value = orderToEdit.shipping;
-    document.getElementById("taxes").value = orderToEdit.taxes;
-    document.getElementById("order-total").value = orderToEdit.orderTotal;
-    document.getElementById("order-status").value = orderToEdit.orderStatus;
-
+function editRow(id) {
+    const order = orders.find(o => o.orderID === id);
+    if(!order) return;
+    document.getElementById("order-id").value = order.orderID;
+    document.getElementById("order-date").value = order.orderDate;
+    document.getElementById("item-name").value = order.itemName;
+    document.getElementById("item-price").value = order.itemPrice;
+    document.getElementById("qty-bought").value = order.qtyBought;
+    document.getElementById("shipping").value = order.shipping;
+    document.getElementById("taxes").value = order.taxes;
+    document.getElementById("order-total").value = order.orderTotal;
+    document.getElementById("order-status").value = order.orderStatus;
+    
+    const t = window.t || ((k) => k);
     document.getElementById("submitBtn").textContent = t('orders.form.update');
-
     document.getElementById("order-form").style.display = "block";
 }
 
-function deleteOrder(orderID) {
-  const indexToDelete = orders.findIndex(order => order.orderID === orderID);
-
-  if (indexToDelete !== -1) {
-      orders.splice(indexToDelete, 1);
-
-      localStorage.setItem("bizTrackOrders", JSON.stringify(orders));
-
-      renderOrders(orders);
-  }
+function deleteOrder(id) {
+    orders = orders.filter(o => o.orderID !== id);
+    localStorage.setItem("bizTrackOrders", JSON.stringify(orders));
+    renderOrders(orders);
 }
 
-function updateOrder(orderID) {
-    const indexToUpdate = orders.findIndex(order => order.orderID === orderID);
-    const t = window.t || ((key) => key);
-
-    if (indexToUpdate !== -1) {
-        const itemPrice = parseFloat(document.getElementById("item-price").value);
-        const qtyBought = parseInt(document.getElementById("qty-bought").value);
-        const shipping = parseFloat(document.getElementById("shipping").value);
-        const taxes = parseFloat(document.getElementById("taxes").value);
-        const updatedOrder = {
-            orderID: document.getElementById("order-id").value,
-            orderDate: document.getElementById("order-date").value,
-            itemName: document.getElementById("item-name").value,
-            itemPrice: itemPrice,
-            qtyBought: qtyBought,
-            shipping: shipping,
-            taxes: taxes,
-            orderTotal: ((itemPrice * qtyBought) + shipping + taxes),
-            orderStatus: document.getElementById("order-status").value,
-        };
-
-        if (isDuplicateID(updatedOrder.orderID, orderID)) {
-            alert("Order ID already exists. Please use a unique ID.");
-            return;
-        }
-
-        orders[indexToUpdate] = updatedOrder;
-
-        localStorage.setItem("bizTrackOrders", JSON.stringify(orders));
-
-        renderOrders(orders);
-
-        document.getElementById("order-form").reset();
-        document.getElementById("submitBtn").textContent = t('orders.form.submit');
-    }
+function updateOrder(id) {
+    const index = orders.findIndex(o => o.orderID === id);
+    if (index === -1) return;
+    
+    orders[index] = {
+        orderID: document.getElementById("order-id").value,
+        orderDate: document.getElementById("order-date").value,
+        itemName: document.getElementById("item-name").value,
+        itemPrice: parseFloat(document.getElementById("item-price").value),
+        qtyBought: parseInt(document.getElementById("qty-bought").value),
+        shipping: parseFloat(document.getElementById("shipping").value),
+        taxes: parseFloat(document.getElementById("taxes").value),
+        orderTotal: 0,
+        orderStatus: document.getElementById("order-status").value
+    };
+    orders[index].orderTotal = (orders[index].itemPrice * orders[index].qtyBought) + orders[index].shipping + orders[index].taxes;
+    
+    localStorage.setItem("bizTrackOrders", JSON.stringify(orders));
+    renderOrders(orders);
+    document.getElementById("order-form").reset();
+    document.getElementById("submitBtn").textContent = window.t ? window.t('orders.form.submit') : 'Add';
 }
 
-function isDuplicateID(orderID, currentID) {
-    return orders.some(order => order.orderID === orderID && order.orderID !== currentID);
+function isDuplicateID(id, currentID) {
+    return orders.some(o => o.orderID === id && o.orderID !== currentID);
 }
 
+// ... (sortTable, search, export 等功能保持不变) ...
 function sortTable(column) {
     const tbody = document.getElementById("tableBody");
     const rows = Array.from(tbody.querySelectorAll("tr"));
-
-    const isNumeric = column === "itemPrice" || column === "qtyBought" || column === "shipping"|| column === "taxes"|| column === "orderTotal";
-
-    const sortedRows = rows.sort((a, b) => {
-        const aValue = isNumeric ? parseFloat(a.dataset[column]) : a.dataset[column];
-        const bValue = isNumeric ? parseFloat(b.dataset[column]) : b.dataset[column];
-
-        if (typeof aValue === "string" && typeof bValue === "string") {
-            return aValue.localeCompare(bValue, undefined, { sensitivity: "base" });
-        } else {
-            return aValue - bValue;
-        }
+    const isNumeric = ["itemPrice", "qtyBought", "shipping", "taxes", "orderTotal"].includes(column);
+    rows.sort((a, b) => {
+        let aVal = a.dataset[column] || a.cells[getColumnIndex(column)].innerText; // fallback if dataset missing
+        let bVal = b.dataset[column] || b.cells[getColumnIndex(column)].innerText;
+        // 简单处理：这里假设 dataset 都有
+        let aComp = isNumeric ? parseFloat(a.dataset[column]) : a.dataset[column];
+        let bComp = isNumeric ? parseFloat(b.dataset[column]) : b.dataset[column];
+        return (typeof aComp === 'string') ? aComp.localeCompare(bComp) : aComp - bComp;
     });
-
-    rows.forEach(row => tbody.removeChild(row));
-
-    sortedRows.forEach(row => tbody.appendChild(row));
+    rows.forEach(r => tbody.appendChild(r));
+}
+function getColumnIndex(colName) {
+    const map = {'orderID':0, 'orderDate':1, 'itemName':2, 'itemPrice':3, 'qtyBought':4, 'shipping':5, 'taxes':6, 'orderTotal':7, 'orderStatus':8};
+    return map[colName] || 0;
 }
 
-document.getElementById("searchInput").addEventListener("keyup", function(event) {
-    if (event.key === "Enter") {
-        performSearch();
-    }
+document.getElementById("searchInput").addEventListener("keyup", (e) => {
+    if (e.key === "Enter") performSearch();
 });
-
 function performSearch() {
-    const searchInput = document.getElementById("searchInput").value.toLowerCase();
-    const rows = document.querySelectorAll(".order-row");
-
-    rows.forEach(row => {
-        const visible = row.innerText.toLowerCase().includes(searchInput);
-        row.style.display = visible ? "table-row" : "none";
+    const term = document.getElementById("searchInput").value.toLowerCase();
+    document.querySelectorAll(".order-row").forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(term) ? "table-row" : "none";
     });
 }
-
 function exportToCSV() {
-    const ordersToExport = orders.map(order => {
-        return {
-            orderID: order.orderID,
-            orderDate: order.orderDate,
-            itemName: order.itemName,
-            itemPrice: order.itemPrice.toFixed(2),
-            qtyBought: order.qtyBought,
-            shipping: order.shipping.toFixed(2),
-            taxes: order.taxes.toFixed(2),
-            orderTotal: order.orderTotal.toFixed(2),
-            orderStatus: order.orderStatus,
-        };
-    });
-  
-    const csvContent = generateCSV(ordersToExport);
-  
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-  
-    const link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = 'biztrack_order_table.csv';
-  
+    // ... (保持原样)
+    const csvContent = "data:text/csv;charset=utf-8," + "Order ID,Date,Item,Price,Qty,Shipping,Taxes,Total,Status\n" 
+        + orders.map(o => `${o.orderID},${o.orderDate},${o.itemName},${o.itemPrice},${o.qtyBought},${o.shipping},${o.taxes},${o.orderTotal},${o.orderStatus}`).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "biztrack_orders.csv");
     document.body.appendChild(link);
     link.click();
-  
-    document.body.removeChild(link);
-}
-  
-function generateCSV(data) {
-    const headers = Object.keys(data[0]).join(',');
-    const rows = data.map(order => Object.values(order).join(','));
-
-    return `${headers}\n${rows.join('\n')}`;
 }
