@@ -29,6 +29,7 @@
     "add": "添加订单",
     "export": "导出CSV",
     "search": "搜索订单...",
+    "revenueLabel": "总收入",
     "table": {
       "id": "订单号",
       "date": "日期",
@@ -93,11 +94,29 @@
       "actions": "操作"
     },
     "categories": {
-      "clothing": "服装",
-      "drinkware": "饮具",
-      "accessories": "配件",
       "hats": "帽子",
+      "drinkware": "饮具",
+      "clothing": "服装",
+      "accessories": "配件",
       "homedecor": "家居装饰"
+    },
+    "names": {
+      "baseballcaps": "棒球帽",
+      "snapbacks": "平檐帽",
+      "beanies": "针织帽",
+      "bucketHats": "渔夫帽",
+      "mugs": "马克杯",
+      "waterbottles": "水瓶",
+      "tumblers": "保温杯",
+      "tshirts": "T恤",
+      "sweatshirts": "卫衣",
+      "hoodies": "连帽衫",
+      "pillowcases": "枕套",
+      "totebags": "帆布袋",
+      "stickers": "贴纸",
+      "posters": "海报",
+      "framedposters": "带框海报",
+      "canvasprints": "帆布画"
     }
   },
   "finances": {
