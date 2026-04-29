@@ -36,6 +36,19 @@ window.renderProductsTable = function() {
   
   prodTableBody.innerHTML = "";
 
+  // ✅ 新增：空状态处理（缺陷修复）
+  if (!products || products.length === 0) {
+      prodTableBody.innerHTML = `
+          <tr>
+              <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
+                  <i class="fas fa-box-open" style="font-size: 48px; display: block; margin-bottom: 10px;"></i>
+                  <p style="font-size: 16px;">No products found. Click "Add Product" to create one!</p>
+              </td>
+          </tr>
+      `;
+      return;
+  }
+
   // 获取翻译函数
   const t = window.i18n ? window.i18n.t : (key => key);
 
