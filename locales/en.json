@@ -147,7 +147,7 @@
       "rent": "Rent",
       "utilities": "Utilities",
       "supplies": "Supplies",
-      "orderFulfillment": "Order Fulfillment",
+      "orderfulfillment": "Order Fulfillment",
       "miscellaneous": "Miscellaneous"
     }
   },
